@@ -578,6 +578,31 @@
                 }
             }
         });
+
+        async function loadAWSFileStats() {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch('http://localhost:3000/aws-file-stats', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const data = await response.json();
+
+            document.getElementById('totalFiles').innerText = data.totalFiles;
+            document.getElementById('totalFileSize').innerText = data.totalSize;
+            document.getElementById('pdfCount').innerText = data.formatStats.pdf;
+            document.getElementById('docCount').innerText = data.formatStats.doc;
+            document.getElementById('imageCount').innerText = data.formatStats.image;
+            document.getElementById('txtCount').innerText = data.formatStats.txt;
+            document.getElementById('csvCount').innerText = data.formatStats.csv;
+        } catch (error) {
+            console.error('Error fetching AWS file stats:', error);
+            alert('Failed to fetch file statistics.');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadAWSFileStats(); // Fetch AWS stats on page load
+    });
     </script>
 </body>
 </html>
