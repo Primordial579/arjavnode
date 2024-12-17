@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" />
+    <style>
+        .medium-length-hero {
+            align-self: stretch;
+            position: relative;
+            margin:0;
+            line-height: 120%;
+        }
+        .lorem-ipsum-dolor {
+            align-self: stretch;
+            position: relative;
+            font-size: 18px;
+            line-height: 150%;
+        }
+        .content {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 24px;
+        }
+        .button {
+            position: relative;
+            line-height: 150%;
+            padding: 12px 24px;
+            border-radius: 25px; /* Rounded corners */
+            font-family: 'Proxima Nova', sans-serif;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+            border: 2px solid #000; /* Black border */
+            color: #000; /* Black text */
+            background-color: #fff; /* White background */
+        }
+        .button:hover {
+            background-color: #000; /* Black background on hover */
+            color: #fff; /* White text on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        .actions {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 16px 0px 0px;
+            gap: 16px;
+            font-size: 16px;
+            color: #fff;
+            font-family: Roboto;
+        }
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 24px;
+        }
+        .placeholder-image-icon {
+            flex: 1;
+            position: relative;
+            max-width: 40%; /* Maintain the original width */
+            height: auto; /* Change height to auto to maintain aspect ratio */
+            object-fit: contain; /* Change to 'contain' to fit the image within the box */
+        }
+        .header-1 {
+            width: 1440px;
+            background-color: #fff;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 112px 64px;
+            box-sizing: border-box;
+            gap: 80px;
+            z-index: 0;
+            font-size: 56px;
+        }
+        .icon-relume {
+            width: 48px;
+            position: relative;
+            height: 48px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .container {
+            align-self: stretch;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 80px;
+        }
+        .layout-24 {
+            width: 1440px;
+            background-color: #fff;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 112px 64px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+        .heading1 {
+            width: 768px;
+            position: relative;
+            line-height: 120%;
+            display: inline-block;
+        }
+        .placeholder-image-icon2 {
+            align-self: stretch;
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            height: 240px; /* Increased height */
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+        .heading2 {
+            align-self: stretch;
+            position: relative;
+            line-height: 140%;
+        }
+        .text1 {
+            align-self: stretch;
+            position: relative;
+            font-size: 16px;
+ line-height: 150%;
+        }
+        .content4 {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start; /* Corrected this line */
+            gap: 16px;
+        }
+        .icon-chevron-right {
+            width: 24px;
+            position: relative;
+            height: 24px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .stylelink-smallfalse-dark {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .action {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 8px 0px 0px;
+            text-align: left;
+            font-size: 16px;
+            font-family: Roboto;
+        }
+        .content3 {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 24px;
+        }
+        .column1 {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 32px;
+        }
+        .row {
+            align-self: stretch;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 48px;
+            font-size: 24px;
+        }
+        .layout-240 {
+            width: 1440px;
+            background-color: #fff;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 112px 64px;
+            box-sizing: border-box;
+            gap: 80px;
+            z-index: 2;
+            text-align: center;
+        }
+        .actions1 {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 16px 0px 0px;
+            gap: 16px;
+            font-size: 16px;
+            font-family: Roboto;
+        }
+        .column4 {
+            width: 768px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 24px;
+        }
+        .cta-3 {
+            width: 1440px;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 112px 64px;
+            box-sizing: border-box;
+            background-image: url('CTA / 3 /.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: top;
+            z-index: 3;
+            font-size: 48px;
+            color: #fff;
+        }
+        .column-child {
+            width: 75px;
+            position: relative;
+            height: 22px;
+        }
+        .address {
+            align-self: stretch;
+            position: relative;
+            line-height: 150%;
+            font-weight: 600;
+        }
+        .content12 {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 4px;
+        }
+        .contact1 {
+            font-weight: 600;
+        }
+        .span {
+            text-decoration: underline;
+        }
+        .contact {
+            align-self: stretch;
+            position: relative;
+            line-height: 150%;
+        }
+        .inforelumeio {
+            align-self: stretch;
+            position: relative;
+            text-decoration: underline;
+            line-height: 150%;
+        }
+        .container1 {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+        .social-links {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 12px;
+        }
+        .column5 {
+            width: 864px;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex -start;
+            gap: 32px;
+        }
+        .link-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 12px;
+        }
+        .column6 {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            font-size: 16px;
+        }
+        .content10 {
+            align-self: stretch;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 64px;
+        }
+        .divider {
+            align-self: stretch;
+            position: relative;
+            background-color: #000;
+            border: 1px solid #000;
+            box-sizing: border-box;
+            height: 1px;
+        }
+        .privacy-policy {
+            position: relative;
+            text-decoration: underline;
+            line-height: 150%;
+        }
+        .footer-links {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 24px;
+        }
+        .row1 {
+            align-self: stretch;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .credits {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 32px;
+        }
+        .footer-3 {
+            width: 1440px;
+            background-color: #fff;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 80px 64px;
+            box-sizing: border-box;
+            gap: 80px;
+            z-index: 4;
+            font-size: 14px;
+        }
+        .container-child {
+            width: 135px;
+            position: relative;
+            height: 39.7px;
+        }
+        .link-one1 {
+            position: relative;
+            line-height: 150%;
+            cursor: pointer;
+        }
+        .nav-link-dropdown {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .column8 {
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 32px;
+        }
+        .actions2 {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        .column7 {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            cursor: pointer;
+        }
+        .container2 {
+            align-self: stretch;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar-1 {
+            width: 1441px;
+            margin: 0 !important;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: #000;
+            border-bottom: 1px solid #000;
+            box-sizing: border-box;
+            height: 72px;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0px 64px;
+            z-index: 5;
+            font-size: 16px;
+            border-radius: 20px;
+            color: #fff;
+        }
+        .home {
+            position: relative;
+            width: 100%;
+            height: 3699px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            text-align: left;
+            font-size: 40px;
+            color: #000;
+            font-family: 'Proxima Nova';
+        }
+    </style>
+</head>
+<body>
+    <div class="home">
+        <div class="header-1">
+            <div class="column">
+                <div class="content">
+                    <b class="medium-length-hero">Welcome to AI.D: Revolutionizing Healthcare </b>
+                    <div class="lorem-ipsum-dolor ">Transforming patient care by streamlining medical record management, AI.D ensures secure access to comprehensive health data. This innovation empowers patients and providers, enhances decision-making, reduces inefficiencies, and ultimately improves clinical outcomes through better coordination</div>
+                </div>
+                <div class="actions">
+                    <div class="button">
+                        <a href="https://db34.s3.ap-south-1.amazonaws.com/login.html" style="color: inherit; text-decoration: none;">Login</a>
+                    </div>
+                    <div class="button">
+                        <a href="https://db34.s3.ap-south-1.amazonaws.com/register.html" style="color: inherit; text-decoration: none;">Register</a>
+                    </div>
+                </div>
+            </div>
+            <img class="placeholder-image-icon" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/489.jpg">
+        </div>
+        <div class="layout-24">
+            <div class="container">
+                <div class="column">
+                    <div class="icon-relume"></div>
+                    <div class="content">
+                        <b class="medium-length-hero">Discover the Power of AI.D - Revolutionizing Healthcare with Advanced Technology</b>
+                        <div class="lorem-ipsum-dolor">AI.D offers a comprehensive suite of features designed to streamline patient record management, provide valuable analytics and reporting, and offer clinical decision support. With AI.D, healthcare professionals can save time, make more informed decisions, and deliver better patient care.</div>
+                    </div>
+                </div>
+                <img class="placeholder-image-icon" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/db.jpg">
+            </div>
+        </div>
+        <div class="layout-240">
+            <b class="heading1">AI.D : Revolutionizing Health Data Management and Clinical Decision Support</b>
+            <div class="row">
+                <div class="column1">
+                    <img class="placeholder-image-icon2" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/imghome2.png">
+                    <div class="content3">
+                        <div class="content4">
+                            <b class="heading2">Efficient Health Data Management and Enhanced Clinical Decision Support</b>
+                            <div class="text1">AI.D leverages advanced technology to streamline health data management and provide intelligent clinical decision support.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column1">
+                    <img class="placeholder-image-icon2" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/ic.jpg">
+                    <div class="content3">
+                        <div class="content4">
+                            <b class="heading2">Seamless Health Data Management and Informed Clinical Decision Making</b>
+                            <div class="text1">With AI.D, healthcare professionals can easily manage patient records and access valuable insights for clinical decision making.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column1">
+                    <img class="placeholder-image-icon2" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/a.jpg">
+                    <div class="content3">
+                        <div class="content4">
+                            <b class="heading2">Intelligent Analytics and Personalized Clinical Decision Support</b>
+                            <div class="text1">AI.D provides advanced analytics and personalized clinical decision support, empowering healthcare professionals to deliver optimal care.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cta-3">
+            <div class="column4">
+                <style>
+                    .custom-image {
+                        width: 1400px;
+                        height: 600px;
+                    }
+                </style>
+            </div>
+        </div>
+        <div class="footer-3">
+            <div class="content10">
+                <div class="column5">
+                    <img class="column-child" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/aid.jpg">
+                    <div class="content">
+                        <div class="content12">
+                            <div class="address">Address:</div>
+                            <div class="contact">Art Complex, 1, Kumarakrupa Rd, near The Lalit Hotel, Kumara Park East, Seshadripuram, Bengaluru, Karnataka 560001</div>
+                        </div>
+                        <div class="content12">
+                            <div class="contact">
+                                <span class="contact1">Contact: </span>
+                                <span class="span">+91 (000) 000-0000</span>
+                            </div>
+                            <div class="container1">
+                               <div class="inforelumeio">info@aid.io</div>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <img class="icon-chevron-right" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/fb.jpg">
+                            <img class="icon-chevron-right" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/ig.jpg">
+                            <img class="icon-chevron-right" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/x.jpg">
+                            <img class="icon-chevron-right" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/in.jpg">
+                            <img class="icon-chevron-right" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/yt.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="column6">
+                    <div class="link-list">
+                        <div class="address">ABOUT US</div>
+                        <div class="address">TERMS OF SERVICES</div>
+                    </div>
+                </div>
+            </div>
+            <div class="credits">
+                <div class="divider"></div>
+                <div class="row1">
+                    <div class="button">© 2024 Aid. All rights reserved.</div>
+                    <div class="footer-links">
+                        <div class="privacy-policy">Privacy Policy</div>
+                        <div class="privacy-policy">Terms of Service</div>
+                        <div class="privacy-policy">Cookies Settings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-1">
+            <div class="container2">
+                <img class="container-child" alt="" src="https://db34.s3.ap-south-1.amazonaws.com/aid.jpg">
+                <div class="column7" id="columnContainer">
+                    <div class="column8">
+                        <div class="link-one1" id="linkOneText">About Us</div>
+                    </div>
+                    <div class="actions2">
+                        <div class="button">
+                            <a href="https://db34.s3.ap-south-1.amazonaws.com/login.html" style="color: inherit; text-decoration: none;">Login</a>
+                        </div>
+                        <div class="button">
+                            <a href="https://db34.s3.ap-south-1.amazonaws.com/register.html" style="color: inherit; text-decoration: none;">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var linkOneText = document.getElementById("linkOneText");
+        if (linkOneText) {
+            linkOneText.addEventListener("click", function (e) {
+                // Add your code here
+            });
+        }
+        var columnContainer = document.getElementById("columnContainer");
+        if (columnContainer) {
+            columnContainer.addEventListener("click", function (e) {
+                // Add your code here
+            });
+        }
+    </script>
+</body>
+</html>

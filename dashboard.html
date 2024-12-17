@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background-color: black;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            border-radius: 30px;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            margin: 10px 0;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .sidebar a:hover {
+            text-decoration: underline;
+            transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            width: calc(100% - 220px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Header */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 100px; /* Adjust width as needed */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 20px; /* Space between logo and search bar */
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 70%;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 40px 0 0 40px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 0 40px 40px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+        }
+
+        /* Upload and Chart Container */
+        .upload-chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* File Upload Section */
+        .file-upload {
+            margin-top: 30px;
+            text-align: center;
+            width: 45%; /* Adjust width as needed */
+        }
+
+        .file-upload input {
+            padding: 10px;
+            font-size: 1;
+            color: #333;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .file-upload button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .file-upload button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            width: 30%; /* Adjust width as needed */
+            margin-left: 70px; /* Increased space between chart and upload section */
+        }
+
+        /* File List Section */
+        .filelist {
+            margin-top: 40px;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 80%;
+        }
+
+        /* Chart and Stats Container */
+        .chart-stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 40px 0;
+            width: 60%;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: 300px;
+        }
+
+        .animated-paragraph {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-top: 20px;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            animation: slideIn 2s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <a href="https://db34.s3.ap-south-1.amazonaws.com/home.html">Logout</a> <!-- Change your local directory here -->
+    </div>
+    <div class="main-content">
+        <div class="main-header">
+            <img src="https://db34.s3.ap-south-1.amazonaws.com/aid.jpg" alt="Logo" class="logo">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by file name..." />
+        </div>
+
+        <div class="upload-chart-container">
+            <div class="file-upload" id="upload">
+                <h2>Upload Medical Records</h2>
+                <input type="file" accept=".pdf, .doc, .docx, .jpg, .jpeg, .png" id="fileInput">
+                <button id="uploadButton">Upload</button>
+                <div class="dropdown">
+                    <label for="scanType">Filter by Healthcare Scan:</label>
+                    <select id="scanType" required>
+                        <option value="">--Select Scan Type--</option>
+                        <option value="ecg">ECG</option>
+                        <option value="xray">X-Ray</option>
+                        <option value="mri">MRI</option>
+                        <option value="prescription">Prescription</option>
+                        <option value="blood_test">Blood Test</option>
+                        <option value="urine_test">Urine Test</option>
+                        <option value="ct_scan">CT Scan</option>
+                        <option value="ultrasound">Ultrasound</option>
+                        <option value="biopsy">Biopsy</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="bloodGroupChart"></canvas>
+            </div>
+        </div>
+
+        <div class="filelist">
+            <table>
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Upload Date</th>
+                        <th>Healthcare Scan</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="fileTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        async function updateFileTable(fileId, fileName, uploadDate, scanType, fileUrl) {
+            const tableBody = document.getElementById('fileTableBody');
+            const row = document.createElement('tr');
+            row.dataset.scanType = scanType;
+            row.dataset.fileName = fileName.toLowerCase();
+            row.innerHTML = `
+                <td>${fileName}</td>
+                <td>${new Date(uploadDate).toLocaleString()}</td>
+                <td>${scanType}</td>
+                <td>
+                    <button class="view-btn" onclick="window.open('${fileUrl}', '_blank')">View</button>
+                    <button class="rename-btn" onclick="renameFile(${fileId}, '${fileName}')">Rename</button>
+                    <button class="delete-btn" onclick="deleteFile(${fileId})">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
+
+        async function loadUserFiles() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('You must log in first.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/files', {
+                    method: 'GET',
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    const tableBody = document.getElementById('fileTableBody');
+                    tableBody.innerHTML = '';
+                    data.forEach(file => {
+                        updateFileTable(file.id, file.fileName, file.uploadDate, file.scanType, file.fileUrl);
+                    });
+                } else {
+                    alert(data.error || 'Could not fetch files.');
+                }
+            } catch (error) {
+                console.error('Error fetching files:', error);
+                alert('An error occurred while fetching files.');
+            }
+        }
+
+        async function renameFile(fileId, currentName) {
+            const newFileName = prompt('Enter the new name for the file:', currentName);
+            if (!newFileName || newFileName.trim() === currentName.trim()) {
+                return;
+            }
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch('http://localhost:3000/rename', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ fileId, newFileName }),
+                });
+
+                const data = await response.json();
+                if (data.message) {
+                    alert(data.message);
+                    loadUserFiles();
+                } else {
+                    alert(data.error || 'Could not rename file.');
+                }
+            } catch (error) {
+                console.error('Rename error:', error);
+                alert('An error occurred while renaming the file.');
+            }
+        }
+
+        async function deleteFile(fileId) {
+            const confirmDelete = confirm('Are you sure you want to delete this file?');
+            if (!confirmDelete) {
+                return;
+            }
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`http://localhost:3000/delete/${fileId}`, {
+                    method: 'DELETE',
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                const data = await response.json();
+                if (data.message) {
+                    alert(data.message);
+                    loadUserFiles();
+                } else {
+                    alert(data.error || 'Could not delete file.');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                alert('An error occurred while deleting the file.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserFiles();
+
+            const scanTypeDropdown = document.getElementById('scanType');
+            scanTypeDropdown.addEventListener('change', () => {
+                const selectedScanType = scanTypeDropdown.value;
+                const tableRows = document.querySelectorAll('#fileTableBody tr');
+
+                tableRows.forEach(row => {
+                    if (!selectedScanType || row.dataset.scanType === selectedScanType) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                const tableRows = document.querySelectorAll('#fileTableBody tr');
+
+                tableRows.forEach(row => {
+                    if (row.dataset.fileName.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            const uploadButton = document.getElementById('uploadButton');
+            uploadButton.addEventListener('click', async () => {
+                const fileInput = document.getElementById('fileInput');
+                const scanType = document.getElementById('scanType').value;
+                const file = fileInput.files[0];
+
+                if (!file || !scanType) {
+                    alert('Please select a file and scan type.');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('scanType', scanType);
+
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('You must log in first.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('http://localhost:3000/upload', {
+                        method: 'POST',
+                        headers: { Authorization: `Bearer ${token}` },
+                        body: formData,
+                    });
+
+                    const data = await response.json();
+                    if (data.fileName) {
+                        alert('File uploaded successfully!');
+                        loadUserFiles();
+                    } else {
+                        alert(data.error || 'File upload failed.');
+                    }
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    alert('An error occurred while uploading.');
+                }
+            });
+
+            const ctx = document.getElementById('bloodGroupChart').getContext('2d');
+            const bloodGroupChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
+                    datasets: [{
+                        label: 'Blood Group Distribution',
+                        data: [12, 19, 3, 5, 2, 3, 7, 1], // Sample data
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#FF6384',
+                            '#36A2EB'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Blood Group Distribution'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

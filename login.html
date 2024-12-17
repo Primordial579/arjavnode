@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login </title>
+    <style>
+        /* Importing Google Fonts - Poppins */
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* Use Poppins font for the entire page */
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 15px;
+            background: linear-gradient(135deg, #2b2b2b, #4d4d4d); /* Dark gradient background */
+            overflow: hidden;
+            position: relative; /* For positioning background shapes */
+        }
+
+        /* Enhanced symmetric shaped background */
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 20%, transparent 30%),
+                        radial-gradient(circle at 70% 40%, rgba(255, 255, 255, 0.05) 20%, transparent 30%),
+                        radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.05) 20%, transparent 30%),
+                        radial-gradient(circle at 90% 20%, rgba(0, 150, 255, 0.1) 20%, transparent 30%),
+                        radial-gradient(circle at 40% 80%, rgba(255, 100, 100, 0.1) 20%, transparent 30%);
+            z-index: 1; /* Behind other content */
+        }
+
+        .wrapper {
+            max-width: 500px;
+            width: 100%;
+            background: white; /* White background for the form */
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden; /* To ensure child elements respect rounded corners */
+            position: relative; /* For z-index control */
+            z-index: 2; /* Above the background shapes */
+        }
+
+        .wrapper .title {
+            height: 120px;
+            background: black; /* Black background for the title */
+            border-radius: 15px 15px 0 0;
+            color: white; /* White text color */
+            font-size: 30px;
+            font-weight: 600; /* Bold font for the title */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Subtle text shadow */
+        }
+
+        .wrapper form {
+            padding: 25px 35px;
+        }
+
+        .wrapper form .row {
+            height: 60px;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .wrapper form .row input {
+            height: 100%;
+            width: 100%;
+            outline: none;
+            padding-left: 70px;
+            border-radius: 10px; /* More rounded input fields */
+            border: 1px solid lightgrey;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for input */
+        }
+
+        form .row input:focus {
+            border-color: black; /* Black border color on focus */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Enhance shadow on focus */
+        }
+
+        form .row input::placeholder {
+            color: #999;
+        }
+
+        .wrapper form .row i {
+            position: absolute;
+            width: 55px;
+            height: 100%;
+            background: black; /* Black background for icons */
+            border-radius: 10px 0 0 10px; /* Rounded corners on the left */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease; /* Smooth background transition */
+        }
+
+        .wrapper form .row i:hover {
+            background: #333; /* Darker shade on hover */
+        }
+
+        .wrapper form .row i img {
+            width: 36px; /* Adjust size as needed */
+            height: 36px; /* Adjust size as needed */
+        }
+
+        .wrapper form .button input {
+            margin-top: 20px;
+            color: white; /* White text color */
+            font-size: 20px;
+            font-weight: 500; /* Regular font weight for button */
+            padding: 15px; /* Increased padding for better button aesthetics */
+            border: none; /* No border */
+            border-radius: 10px; /* Rounded corners for button */
+            background: black; /* Black background for the button */
+            cursor: pointer;
+            transition: background 0.3s ease; /* Smooth background transition */
+        }
+
+        form .button input:hover {
+            background: #444; /* Darker shade of black for hover effect */
+        }
+
+        .wrapper form .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 17px;
+        }
+
+        .wrapper form .signup-link a {
+            color: black; /* Black text color for the link */
+            text-decoration: none;
+            transition: text-shadow 0.3s ease; /* Smooth text shadow transition */
+        }
+
+        form .signup-link a:hover {
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Text shadow on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="background-shapes"></div>
+    <div class="wrapper">
+        <div class="title">Login</div>
+        <form id="loginForm">
+            <div class="row">
+                <i><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Google Mail Logo"></i>
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="row">
+                <i>
+                  <img src="https://db34.s3.ap-south-1.amazonaws.com/s.jpg" alt="Key Logo">
+                </i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="row button">
+                <input type="button" id="loginButton" value="Login">
+            </div>
+            <div class="signup-link">
+                Don't have an account? <a href="register.html">Register</a>  <!--  CHANGE YOUR LOCAL DIRECTORY HERE  -->
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('loginButton').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                window.location.href = data.redirect;
+            } else {
+                alert(data.error || 'Login failed.');
+            }
+        });
+    </script>
+</body>
+</html>
