@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Record Manager Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background-color: black;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            border-radius: 30px;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            margin: 10px 0;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .sidebar a:hover {
+            text-decoration: underline;
+            transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            width: calc(100% - 220px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Header */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .main-header img {
+            width: 150px;
+            border-radius: 8px;
+            height: 70px;
+            margin-right: 40px;
+        }
+
+        .main-header h1 {
+            font-size: 2rem;
+        }
+
+        /* Dynamic Medical Thought */
+        #dynamic-thought {
+            font-size: 1.1rem;
+            color: #555;
+            margin-right: 50px;
+            margin-top: 20px;
+            font-family: 'Times New Roman', serif;
+            font-style: normal;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 70%;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 40px 0 0 40px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 0 40px 40px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+        }
+
+        /* File Upload Section */
+        .file-upload {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .file-upload input {
+            padding: 10px;
+            font-size: 1;
+            color: #333;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .file-upload button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .file-upload button:hover {
+            transform: scale(1.05);
+            background: linear -gradient(90deg, #2575fc 0%, #6a11cb 100%);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .dropdown select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 70%;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown select:focus {
+            outline: none;
+            border-color: #6a11cb;
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        }
+
+        /* File List Section */
+        .filelist {
+            margin-top: 40px;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 80%;
+        }
+
+        /* Chart and Stats Container */
+        .chart-stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 20px 0;
+            width: 80%;
+        }
+
+        .chart-container {
+            width: 50%;
+            margin-right: 20px;
+        }
+
+        .file-stats,
+        .file-format-stats {
+            width: 18%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        canvas {
+            max-width: 100%;
+            height: 300px; /* Set a fixed height for the pie chart */
+        }
+
+        .animated-paragraph {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-top: 20px;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            animation: slideIn 2s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <a href="#home">Home</a>
+        <a href="#logout">Logout</a>
+        <div id="dynamic-paragraph" class="animated-paragraph"></div>
+    </div>
+    <div class="main-content">
+        <div class="main-header">
+            <img src="C:\Users\kamno\OneDrive\Desktop\ADITYA\Python\Chapter 2 strings/aid.png" alt=" Logo">
+        </div>
+        <div id="dynamic-thought"></div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by name or scan type">
+            <button id="searchButton"><i class="fas fa-search"></i> Search</button>
+        </div>
+        <div class="chart-stats-container">
+            <div class="chart-container">
+                <canvas id="diseasePieChart"></canvas>
+            </div>
+            <div class="file-stats" id="fileStats">
+                <h2>File Statistics</h2>
+                <p>Total Files: <span id="totalFiles">0</span></p>
+                <p>Total Size: <span id="totalSize">0 KB</span></p>
+            </div>
+            <div class="file-format-stats" id="fileFormatStats">
+                <h2>File Format Statistics</h2>
+                <p> Images: <span id="imageFiles">0</span></p>
+                <p>PDFs: <span id="pdfFiles"> 0</span></p>
+                <p>DOCX: <span id="docxFiles">0</span></p>
+                <p >Others : <span id="otherFiles">0</span></p>
+            </div>
+        </div>
+        <div class="file-upload" id="upload">
+            <h2>Upload Medical Records</h2>
+            <input type="file" accept=".pdf, .doc, .docx, .jpg, .jpeg, .png" id="fileInput">
+            <button id="uploadButton">Upload</button>
+            <div class="dropdown">
+                <label for="scanType">Select Healthcare Scan:</label>
+                <select id="scanType" required>
+                    <option value="">--Select Scan Type--</option>
+                    <option value="ecg">ECG</option>
+                    <option value="xray">X-Ray</option>
+                    <option value="mri">MRI</option>
+                    <option value="prescription">Prescription</option>
+                    <option value="blood_test">Blood Test</option>
+                    <option value="urine_test">Urine Test</option>
+                    <option value="ct_scan">CT Scan</option>
+                    <option value="ultrasound">Ultrasound</option>
+                    <option value="biopsy">Biopsy</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="file-list" id="view">
+            <h2>Uploaded Records</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Date of Upload</th>
+                        <th>Healthcare Scans</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="fileTableBody">
+                    <!-- Uploaded files will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 AI.D. All rights reserved.</p>
+        </div>
+    </div>
+    <script>
+        const dynamicParagraph = document.getElementById('dynamic-paragraph');
+        const paragraphs = [
+            "Fruits are a good source of vitamins, minerals, fiber, and antioxidants. They are especially high in vitamins that many people don't get enough of, like vitamin C, potassium, and folate",
+            "Apple: Apples are crisp, sweet fruits available in many varieties. Packed with fiber, vitamin C, and antioxidants, they support heart health, improve digestion, and boost immunity. The high water content keeps you hydrated, while polyphenols help fight inflammation. Low in calories, apples make a healthy snack, aiding weight management. Regular consumption is linked to a reduced risk of diabetes and improved gut health, thanks to their pectin content.",
+            "Banana: Bananas are soft, sweet fruits loaded with potassium, essential for muscle function, nerve transmission, and heart health. Rich in natural sugars and fiber, they provide a quick energy boost while aiding digestion. Bananas contain vitamin B6, which supports brain health and red blood cell production. They also have antioxidants like dopamine and catechins, which reduce inflammation. Bananas are perfect for maintaining healthy blood pressure and balancing electrolytes.",
+            "Orange: Oranges are juicy, tangy citrus fruits rich in vitamin C, boosting immunity, skin health, and collagen production. They also provide dietary fiber, promoting digestion and heart health. Packed with antioxidants like flavonoids, oranges reduce inflammation and support overall well-being.",
+
+            "Blueberry: Blueberries are tiny, sweet-tart fruits known for their exceptional antioxidant content, particularly anthocyanins, which improve brain function and reduce inflammation. They are also rich in vitamin C, vitamin K, and manganese, supporting immunity, bone health, and metabolism. Blueberries are low in calories but high in fiber, promoting digestive health and weight management. Regular consumption may improve heart health and protect against aging-related diseases like Alzheimer’s.",
+            "Prevention is always better than cure."
+        ];
+
+        dynamicParagraph.innerText = paragraphs[Math.floor(Math.random() * paragraphs.length)];
+        const fileTableBody = document.getElementById('fileTableBody');
+        const fileInput = document.getElementById('fileInput');
+        const uploadButton = document.getElementById('uploadButton');
+        const dynamicThought = document.getElementById('dynamic-thought');
+        const totalFilesElement = document.getElementById('totalFiles');
+        const totalSizeElement = document.getElementById('totalSize');
+        const imageFilesElement = document.getElementById('imageFiles');
+        const pdfFilesElement = document.getElementById('pdfFiles');
+        const docxFilesElement = document.getElementById('docxFiles');
+        const otherFilesElement = document.getElementById('otherFiles');
+        const scanTypeSelect = document.getElementById('scanType');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        let totalFiles = 0;
+        let totalSize = 0; // in bytes
+        let imageFiles = 0;
+        let pdfFiles = 0;
+        let docxFiles = 0;
+        let otherFiles = 0;
+
+        // Initialize counts for scan types
+        let scanTypeCounts = {
+            ecg: 0,
+            xray: 0,
+            mri: 0,
+            prescription: 0,
+            blood_test: 0,
+            urine_test: 0,
+            ct_scan: 0,
+            ultrasound: 0,
+            biopsy: 0,
+            other: 0
+        };
+
+        // Pie Chart Data
+        const ctx = document.getElementById('diseasePieChart').getContext('2d');
+        const diseasePieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(scanTypeCounts),
+                datasets: [{
+                    label: 'Scan Type Distribution',
+                    data: Object.values(scanTypeCounts),
+                    backgroundColor: [
+                        'rgba(255, 99, 132)', 
+                        'rgba(54, 162, 235)', 
+                        'rgba(255, 206, 86)', 
+                        'rgba(75, 192, 192)', 
+                        'rgba(153, 102, 255)', 
+                        'rgba(255, 159, 64)', 
+                        'rgba(255, 99, 71)', 
+                        'rgba(0, 255, 0)', 
+                        'rgba(0, 0, 255)', 
+                        'rgba(255, 0, 255)', 
+                        'rgba(255, 165, 0)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132)', 
+                        'rgba(54, 162, 235)', 
+                        'rgba(255, 206, 86)', 
+                        'rgba(75, 192, 192)', 
+                        'rgba(153, 102, 255)', 
+                        'rgba(255, 159, 64)', 
+                        'rgba(255, 99, 71)', 
+                        'rgba(0, 255, 0)', 
+                        'rgba(0, 0, 255)', 
+                        'rgba(255, 0, 255)', 
+                        'rgba(255, 165, 0)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Scan Type Distribution'
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        const thoughts = [
+            "Revolutionizing Healthcare"
+        ];
+
+        dynamicThought.innerText = thoughts[Math.floor(Math.random() * thoughts.length)];
+
+        uploadButton.addEventListener('click', function() {
+            const file = fileInput.files[0];
+            const selectedScan = scanTypeSelect.value;
+
+            if (!selectedScan) {
+                alert('Please select a healthcare scan type before uploading a file.');
+                return;
+            }
+
+            if (file) {
+                const fileName = file.name;
+                const uploadDate = new Date().toLocaleDateString();
+                const fileSize = file.size; // size in bytes
+
+                // Update total files and total size
+                totalFiles++;
+                totalSize += fileSize;
+
+                // Update scan type counts
+                scanTypeCounts[selectedScan]++;
+
+                // Update file format statistics
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                if (['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+                    imageFiles++;
+                } else if (fileExtension === 'pdf') {
+                    pdfFiles++;
+                } else if (fileExtension === 'docx') {
+                    docxFiles++;
+                } else {
+                    otherFiles++;
+                }
+
+                // Create a new row for the uploaded file
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `<td>${fileName}</td><td>${uploadDate}</td><td>${selectedScan}</td>
+                                    <td>
+                                        <button onclick="viewFile('${URL.createObjectURL(file)}')">View</button>
+                                        <button onclick="renameFile(this)">Rename</button>
+                                        <button onclick="deleteFile(this)">Delete</button>
+                                    </td>`;
+                fileTableBody.appendChild(newRow);
+                fileInput.value = ''; // Clear the input after upload
+                scanTypeSelect.selectedIndex = 0; // Reset the dropdown selection
+
+                // Update the statistics display
+                updateFileStats();
+                
+                // Update the pie chart
+                updatePieChart();
+            } else {
+                alert('Please select a file to upload.');
+            }
+        });
+
+        function updateFileStats() {
+            totalFilesElement.innerText = totalFiles;
+
+            // Convert totalSize to KB, MB, GB
+            let sizeInKB = totalSize / 1024;
+            let sizeInMB = sizeInKB / 1024;
+            let sizeInGB = sizeInMB / 1024;
+
+            if (sizeInGB >= 1) {
+                totalSizeElement.innerText = sizeInGB.toFixed(2) + ' GB';
+            } else if (sizeInMB >= 1) {
+                totalSizeElement.innerText = sizeInMB.toFixed(2) + ' MB';
+            } else {
+                totalSizeElement.innerText = sizeInKB.toFixed(2) + ' KB';
+            }
+
+            // Update file format statistics
+            imageFilesElement.innerText = imageFiles;
+            pdfFilesElement.innerText = pdfFiles;
+            docxFilesElement.innerText = docxFiles;
+            otherFilesElement.innerText = otherFiles;
+        }
+
+        function updatePieChart() {
+            // Update chart data
+            diseasePieChart.data.datasets[0].data = Object.values(scanTypeCounts);
+            diseasePieChart.update();
+        }
+
+        function renameFile(button) {
+            const row = button.parentElement.parentElement;
+            const fileNameCell = row .cells[0];
+            const newFileName = prompt("Enter new file name:", fileNameCell.innerText);
+            if (newFileName) {
+                fileNameCell.innerText = newFileName;
+            }
+        }
+
+        function deleteFile(button) {
+            const row = button.parentElement.parentElement;
+            const fileName = row.cells[0].innerText;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+
+            // Update counts based on file type
+            if (['jpg', 'jpeg', 'png'].includes(fileExtension)) {
+                imageFiles--;
+            } else if (fileExtension === 'pdf') {
+                pdfFiles--;
+            } else if (fileExtension === 'docx') {
+                docxFiles--;
+            } else {
+                otherFiles--;
+            }
+
+            totalFiles--;
+            totalSize -= row.dataset.size; // Assuming size is stored in data attribute
+            fileTableBody.removeChild(row);
+            updateFileStats(); // Update stats after deletion
+
+            // Update scan type counts
+            const scanType = row.cells[2].innerText.toLowerCase();
+            scanTypeCounts[scanType]--;
+
+            // Update the pie chart
+            updatePieChart();
+        }
+
+        function viewFile(fileUrl) {
+            window.open(fileUrl, '_blank'); // Open the file in a new tab
+        }
+
+        // Search functionality
+        searchButton.addEventListener('click', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const rows = fileTableBody.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const fileName = rows[i].cells[0].innerText.toLowerCase();
+                const scanType = rows[i].cells[2].innerText.toLowerCase();
+
+                if (fileName.includes(searchTerm) || scanType.includes(searchTerm)) {
+                    rows[i].style.display = ''; // Show row
+                } else {
+                    rows[i].style.display = 'none'; // Hide row
+                }
+            }
+        });
+    </script>
+</body>
+</html>
